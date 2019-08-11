@@ -15,6 +15,28 @@ import com.nosph.testtasks.xml.model.Element;
 import com.nosph.testtasks.xml.parser.SearchingParser;
 import com.nosph.testtasks.xml.parser.exception.InvalidDocumentException;
 
+/**
+ * STATES:
+ *   - SEARCH_NEXT_ELEMENT
+ *   - STARTED_ELEMENT_PARSING
+ *   - PARSING_OPENING_TAG
+ *   - PARSING_ATTRIBUTES
+ *   - PARSING_CLOSING_TAG
+ *   - PARSING_COMMENT_OR_DOCTYPE
+ *
+ *  +---------------------------------SEARCH_NEXT_ELEMENT<-------------------------------+
+ *  |                                                                                    |
+ *  |                                                                                    |
+ *  |                                +-->PARSING_OPENING_TAG--+---->PARSING_ATTRIBUTES---+
+ *  |                                |                        |                          |
+ *  +---->STARTED_ELEMENT_PARSING----+                        +--------------------------+
+ *                                   |                                                   |
+ *                                   +-->PARSING_CLOSING_TAG-----------------------------+
+ *                                   |                                                   |
+ *                                   |                                                   |
+ *                                   +-->PARSING_COMMENT_OR_DOCTYPE----------------------+
+ */
+
 public class ParserImpl implements SearchingParser
 {
     private EnumMap<State, Consumer<Character>> stateActions = new EnumMap<>(State.class);
