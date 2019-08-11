@@ -13,5 +13,8 @@ public interface ParserContext
     String getTargetElementTag();
     void setTargetElementTag(String tag);
 
+    void flushAndConsume(char nextChar);
+    void consume(char nextChar);
+
     List<Element> getFoundElements();
 }

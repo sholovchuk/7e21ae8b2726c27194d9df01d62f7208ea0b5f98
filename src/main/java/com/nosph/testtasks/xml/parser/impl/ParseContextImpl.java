@@ -12,6 +12,7 @@ public class ParseContextImpl implements ParserContext, HasLogger
 {
     private State state;
     private String targetElementTag;
+    private StringBuilder readingBuffer;
 
     @Override
     public State getState()
@@ -35,6 +36,18 @@ public class ParseContextImpl implements ParserContext, HasLogger
     public void setTargetElementTag(String tag)
     {
         targetElementTag = tag;
+    }
+
+    @Override
+    public void flushAndConsume(char nextChar)
+    {
+        readingBuffer = new StringBuilder().append(nextChar);
+    }
+
+    @Override
+    public void consume(char nextChar)
+    {
+        readingBuffer.append(nextChar);
     }
 
     @Override
