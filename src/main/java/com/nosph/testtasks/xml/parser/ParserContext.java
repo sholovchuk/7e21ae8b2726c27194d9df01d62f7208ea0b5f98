@@ -22,5 +22,7 @@ public interface ParserContext
     String peekTag();
     boolean isEmpty();
 
+    void saveCurrentElement();
+
     List<Element> getFoundElements();
 }

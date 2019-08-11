@@ -19,12 +19,21 @@ public class ParsingOpeningTag extends AbstractParsingAction
 
             context.pushTag(tag);
 
+            if(context.getTargetElementTag().equalsIgnoreCase(tag))
+            {
+                context.saveCurrentElement();
+            }
             context.setState(State.SEARCH_NEXT_ELEMENT);
         }
         else if (Character.isWhitespace(nextChar))
         {
             String tag = context.flushAndReturn();
             context.pushTag(tag);
+
+            if(context.getTargetElementTag().equalsIgnoreCase(tag))
+            {
+                context.saveCurrentElement();
+            }
 
             context.setState(State.PARSING_ATTRIBUTES);
         }
