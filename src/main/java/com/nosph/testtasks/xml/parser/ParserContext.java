@@ -1,6 +1,7 @@
 package com.nosph.testtasks.xml.parser;
 
 import java.util.List;
+import java.util.Map;
 
 import com.nosph.testtasks.xml.model.Element;
 import com.nosph.testtasks.xml.parser.SearchingParser.State;
@@ -23,6 +24,7 @@ public interface ParserContext
     boolean isEmpty();
 
     void saveCurrentElement();
+    void saveCurrentElementAttributes(Map<String, String> attrs);
 
     List<Element> getFoundElements();
 }

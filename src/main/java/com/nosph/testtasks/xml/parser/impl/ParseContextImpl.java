@@ -102,6 +102,12 @@ public class ParseContextImpl implements ParserContext, HasLogger
     }
 
     @Override
+    public void saveCurrentElementAttributes(Map<String, String> attrs)
+    {
+        selectedElements.get(selectedElements.size() - 1).setAttrs(attrs);
+    }
+
+    @Override
     public List<Element> getFoundElements()
     {
         List<SelectedElemet> foundElements = selectedElements;
@@ -119,7 +125,7 @@ public class ParseContextImpl implements ParserContext, HasLogger
                 return e.getTag() + "[" + e.getOrder() + "]";
             }).collect(Collectors.joining(" > "));
 
-            return ElementImpl.create(selectedElement.getTag(), path, new HashMap<>());
+            return ElementImpl.create(selectedElement.getTag(), path, selectedElement.getAttrs());
         }).collect(Collectors.toList());
     }
 
@@ -198,6 +204,7 @@ public class ParseContextImpl implements ParserContext, HasLogger
         private List<SelectedElemet> myPath;
         private AtomicInteger sameTagNeighborCount;
         private int order;
+        private Map<String, String> attrs = Collections.emptyMap();
 
         public SelectedElemet(String tag)
         {
@@ -237,6 +244,16 @@ public class ParseContextImpl implements ParserContext, HasLogger
         public void setMyPath(List<SelectedElemet> myPath)
         {
             this.myPath = myPath;
+        }
+
+        public Map<String, String> getAttrs()
+        {
+            return attrs;
+        }
+
+        public void setAttrs(Map<String, String> attrs)
+        {
+            this.attrs = attrs;
         }
     }
 }

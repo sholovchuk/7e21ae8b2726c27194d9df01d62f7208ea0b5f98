@@ -31,6 +31,7 @@ public class TestParserOnSimpleCases extends ParserTestSupport
 
         assertThat(foundElements.get(0).getName(), equalTo("a"));
         assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a"));
+        assertThat(foundElements.get(0).getAttributes(), equalTo(map("href", "#")));
     }
 
     @Test
@@ -42,6 +43,8 @@ public class TestParserOnSimpleCases extends ParserTestSupport
 
         assertThat(foundElements.get(0).getName(), equalTo("a"));
         assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a"));
+        assertThat(foundElements.get(0).getAttributes(), equalTo(map("href", "#",
+                                                                     "class", "super")));
     }
 
     @Test
@@ -53,9 +56,11 @@ public class TestParserOnSimpleCases extends ParserTestSupport
 
         assertThat(foundElements.get(0).getName(), equalTo("a"));
         assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a[1]"));
+        assertThat(foundElements.get(0).getAttributes(), equalTo(map("href", "#")));
 
         assertThat(foundElements.get(1).getName(), equalTo("a"));
         assertThat(foundElements.get(1).getXPath(), equalTo("html > body > a[2]"));
+        assertThat(foundElements.get(1).getAttributes(), equalTo(map("href", "#")));
     }
 
     @Test
@@ -67,11 +72,33 @@ public class TestParserOnSimpleCases extends ParserTestSupport
 
         assertThat(foundElements.get(0).getName(), equalTo("a"));
         assertThat(foundElements.get(0).getXPath(), equalTo("html > body > div[1] > a"));
+        assertThat(foundElements.get(0).getAttributes(), equalTo(map("href", "#")));
 
         assertThat(foundElements.get(1).getName(), equalTo("a"));
         assertThat(foundElements.get(1).getXPath(), equalTo("html > body > div[2] > a[1]"));
+        assertThat(foundElements.get(1).getAttributes(), equalTo(map("href", "#")));
 
         assertThat(foundElements.get(2).getName(), equalTo("a"));
         assertThat(foundElements.get(2).getXPath(), equalTo("html > body > div[2] > a[2]"));
+        assertThat(foundElements.get(2).getAttributes(), equalTo(map("href", "#")));
+    }
+
+    @Test
+    public void testTwoButtonsTwoComplexAttributes() throws IOException
+    {
+        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/twoButtonsTwoComplexAttributes.html"));
+
+        assertThat(foundElements, hasSize(2));
+
+        assertThat(foundElements.get(0).getName(), equalTo("a"));
+        assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a[1]"));
+        assertThat(foundElements.get(0).getAttributes(), equalTo(map("href", "#",
+                                                                     "class", "super",
+                                                                     "data", "some data")));
+
+        assertThat(foundElements.get(1).getName(), equalTo("a"));
+        assertThat(foundElements.get(1).getXPath(), equalTo("html > body > a[2]"));
+        assertThat(foundElements.get(1).getAttributes(), equalTo(map("href", "#",
+                                                                     "class", "super super-puper")));
     }
 }
