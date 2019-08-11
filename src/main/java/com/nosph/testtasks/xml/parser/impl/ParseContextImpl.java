@@ -1,6 +1,8 @@
 package com.nosph.testtasks.xml.parser.impl;
 
 import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.nosph.testtasks.xml.model.Element;
@@ -13,6 +15,7 @@ public class ParseContextImpl implements ParserContext, HasLogger
     private State state;
     private String targetElementTag;
     private StringBuilder readingBuffer;
+    private Deque<StackElement> stack = new LinkedList<>();
 
     @Override
     public State getState()
@@ -59,8 +62,47 @@ public class ParseContextImpl implements ParserContext, HasLogger
     }
 
     @Override
+    public void pushTag(String tag)
+    {
+        stack.offer(new StackElement(tag));
+    }
+
+    @Override
+    public String popTag()
+    {
+        return stack.pollLast().getTag();
+    }
+
+    @Override
+    public String peekTag()
+    {
+        return stack.peekLast().getTag();
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return stack.isEmpty();
+    }
+
+    @Override
     public List<Element> getFoundElements()
     {
         return Collections.emptyList();
+    }
+
+    private static class StackElement
+    {
+        private String tag;
+
+        public StackElement(String tag)
+        {
+            this.tag = tag;
+        }
+
+        public String getTag()
+        {
+            return tag;
+        }
     }
 }

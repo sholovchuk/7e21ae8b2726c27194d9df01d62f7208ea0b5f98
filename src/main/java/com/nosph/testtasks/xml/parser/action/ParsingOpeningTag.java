@@ -16,11 +16,16 @@ public class ParsingOpeningTag extends AbstractParsingAction
         if(nextChar == '>')
         {
             String tag = context.flushAndReturn();
+
+            context.pushTag(tag);
+
             context.setState(State.SEARCH_NEXT_ELEMENT);
         }
         else if (Character.isWhitespace(nextChar))
         {
             String tag = context.flushAndReturn();
+            context.pushTag(tag);
+
             context.setState(State.PARSING_ATTRIBUTES);
         }
         else

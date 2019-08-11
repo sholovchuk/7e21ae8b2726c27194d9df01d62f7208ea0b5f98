@@ -17,5 +17,10 @@ public interface ParserContext
     void flushAndConsume(char nextChar);
     void consume(char nextChar);
 
+    void pushTag(String tag);
+    String popTag();
+    String peekTag();
+    boolean isEmpty();
+
     List<Element> getFoundElements();
 }

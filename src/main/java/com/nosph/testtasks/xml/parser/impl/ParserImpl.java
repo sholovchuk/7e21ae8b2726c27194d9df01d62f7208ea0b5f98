@@ -72,6 +72,7 @@ public class ParserImpl implements SearchingParser
                 process((char)next);
             }
         }
+        assert context.isEmpty();
         return context.getFoundElements();
     }
 

@@ -16,6 +16,12 @@ public class ParsingClosingTag extends AbstractParsingAction
         if(nextChar == '>')
         {
             String tag = context.flushAndReturn();
+
+            if(tag.equals(context.peekTag()))
+            {
+                context.popTag();
+            }
+
             context.setState(State.SEARCH_NEXT_ELEMENT);
         }
         else
