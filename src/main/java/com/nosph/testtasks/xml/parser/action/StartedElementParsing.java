@@ -13,9 +13,17 @@ public class StartedElementParsing extends AbstractParsingAction
     @Override
     public void accept(Character nextChar)
     {
-        if(nextChar == '!')
+        if(nextChar == '/')
+        {
+            context.setState(State.PARSING_CLOSING_TAG);
+        }
+        else if(nextChar == '!')
         {
             context.setState(State.PARSING_COMMENT_OR_DOCTYPE);
+        }
+        else
+        {
+            context.setState(State.PARSING_OPENING_TAG);
         }
     }
 }
