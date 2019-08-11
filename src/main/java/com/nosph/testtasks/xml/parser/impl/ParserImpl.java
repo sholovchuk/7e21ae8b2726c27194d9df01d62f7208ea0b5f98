@@ -14,6 +14,9 @@ import java.util.function.Consumer;
 import com.nosph.testtasks.xml.model.Element;
 import com.nosph.testtasks.xml.parser.SearchingParser;
 import com.nosph.testtasks.xml.parser.ParserContext;
+import com.nosph.testtasks.xml.parser.action.ParsingCommentOrDoctype;
+import com.nosph.testtasks.xml.parser.action.SearchNextTag;
+import com.nosph.testtasks.xml.parser.action.StartedElementParsing;
 import com.nosph.testtasks.xml.parser.exception.InvalidDocumentException;
 
 /**
@@ -44,6 +47,12 @@ public class ParserImpl implements SearchingParser
 
     private EnumMap<State, Consumer<Character>> stateActions = new EnumMap<>(State.class);
 
+    {
+        stateActions.put(State.SEARCH_NEXT_ELEMENT,        new SearchNextTag(context));
+        stateActions.put(State.STARTED_ELEMENT_PARSING,    new StartedElementParsing(context));
+        stateActions.put(State.PARSING_COMMENT_OR_DOCTYPE, new ParsingCommentOrDoctype(context));
+    }
+
     @Override
     public List<Element> search(String targetElementTag, File file) throws InvalidDocumentException, FileNotFoundException, IOException
     {
@@ -63,5 +72,6 @@ public class ParserImpl implements SearchingParser
 
     private void process(char nextChar)
     {
+        stateActions.get(context.getState()).accept(nextChar);
     }
 }
