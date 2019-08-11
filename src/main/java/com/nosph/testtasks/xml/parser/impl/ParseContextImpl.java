@@ -6,6 +6,9 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import com.nosph.testtasks.xml.model.Element;
@@ -68,7 +71,7 @@ public class ParseContextImpl implements ParserContext, HasLogger
     @Override
     public void pushTag(String tag)
     {
-        stack.offer(new StackElement(tag));
+        stack.offer(new StackElement(tag, stack));
     }
 
     @Override
@@ -93,7 +96,8 @@ public class ParseContextImpl implements ParserContext, HasLogger
     public void saveCurrentElement()
     {
         StackElement stackElement = stack.peekLast();
-        SelectedElemet selectedElement = new SelectedElemet(stackElement.getTag());
+        SelectedElemet selectedElement = toSelectedElement(stackElement);
+        selectedElement.setMyPath(buildDataForXPathForCurrentElement());
         selectedElements.add(selectedElement);
     }
 
@@ -102,29 +106,98 @@ public class ParseContextImpl implements ParserContext, HasLogger
     {
         List<SelectedElemet> foundElements = selectedElements;
         selectedElements = new ArrayList<>();
-        return foundElements.stream()
-                            .map(selectedElement -> ElementImpl.create(selectedElement.getTag(), "", new HashMap<>()))
-                            .collect(Collectors.toList());
+        return foundElements.stream().map(selectedElement ->
+        {
+            String path = selectedElement.getMyPath().stream().map(e ->
+            {
+                AtomicInteger neighborCount = e.getSameTagNeighborCount();
+                if(neighborCount == null || neighborCount.get() == 1)
+                {
+                    return e.getTag();
+                }
+
+                return e.getTag() + "[" + e.getOrder() + "]";
+            }).collect(Collectors.joining(" > "));
+
+            return ElementImpl.create(selectedElement.getTag(), path, new HashMap<>());
+        }).collect(Collectors.toList());
+    }
+
+    private List<SelectedElemet> buildDataForXPathForCurrentElement()
+    {
+        return stack.stream()
+                    .map(this::toSelectedElement)
+                    .collect(Collectors.toList());
+    }
+
+    private SelectedElemet toSelectedElement(StackElement stackElement)
+    {
+        SelectedElemet selectedElement = new SelectedElemet(stackElement.getTag());
+
+        if(stackElement.getParent().isPresent())
+        {
+            StackElement parent = stackElement.getParent().get();
+            AtomicInteger tagCounter = parent.getChildrenCounts().get(stackElement.getTag());
+            selectedElement.setOrder(tagCounter.get());
+            selectedElement.setSameTagNeighborCount(tagCounter);
+        }
+        return selectedElement;
     }
 
     private static class StackElement
     {
+        private StackElement parent;
         private String tag;
+        private Map<String, AtomicInteger> childrenCounts;
 
-        public StackElement(String tag)
+        public StackElement(String tag, Deque<StackElement> stack)
         {
             this.tag = tag;
+            this.childrenCounts = new HashMap<>();
+
+            parent = stack.peekLast();
+            if(parent != null)
+            {
+                AtomicInteger cnt = parent.childrenCounts.get(tag);
+                if(cnt != null)
+                {
+                    cnt.getAndIncrement();
+                }
+                else
+                {
+                    parent.childrenCounts.put(tag, new AtomicInteger(1));
+                }
+            }
         }
 
         public String getTag()
         {
             return tag;
         }
+
+        public Map<String, AtomicInteger> getChildrenCounts()
+        {
+            return childrenCounts;
+        }
+
+        public Optional<StackElement> getParent()
+        {
+            return Optional.ofNullable(this.parent);
+        }
+
+        @Override
+        public String toString()
+        {
+            return "<" + tag + ", " + childrenCounts + ">";
+        }
     }
 
     private static class SelectedElemet
     {
         private String tag;
+        private List<SelectedElemet> myPath;
+        private AtomicInteger sameTagNeighborCount;
+        private int order;
 
         public SelectedElemet(String tag)
         {
@@ -134,6 +207,36 @@ public class ParseContextImpl implements ParserContext, HasLogger
         public String getTag()
         {
             return tag;
+        }
+
+        public AtomicInteger getSameTagNeighborCount()
+        {
+            return sameTagNeighborCount;
+        }
+
+        public void setSameTagNeighborCount(AtomicInteger sameTagNeighborCount)
+        {
+            this.sameTagNeighborCount = sameTagNeighborCount;
+        }
+
+        public int getOrder()
+        {
+            return order;
+        }
+
+        public void setOrder(int order)
+        {
+            this.order = order;
+        }
+
+        public List<SelectedElemet> getMyPath()
+        {
+            return myPath;
+        }
+
+        public void setMyPath(List<SelectedElemet> myPath)
+        {
+            this.myPath = myPath;
         }
     }
 }

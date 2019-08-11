@@ -30,6 +30,7 @@ public class TestParserOnSimpleCases extends ParserTestSupport
         assertThat(foundElements, hasSize(1));
 
         assertThat(foundElements.get(0).getName(), equalTo("a"));
+        assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a"));
     }
 
     @Test
@@ -40,5 +41,37 @@ public class TestParserOnSimpleCases extends ParserTestSupport
         assertThat(foundElements, hasSize(1));
 
         assertThat(foundElements.get(0).getName(), equalTo("a"));
+        assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a"));
+    }
+
+    @Test
+    public void testTwoButtons() throws IOException
+    {
+        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/twoButtons.html"));
+
+        assertThat(foundElements, hasSize(2));
+
+        assertThat(foundElements.get(0).getName(), equalTo("a"));
+        assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a[1]"));
+
+        assertThat(foundElements.get(1).getName(), equalTo("a"));
+        assertThat(foundElements.get(1).getXPath(), equalTo("html > body > a[2]"));
+    }
+
+    @Test
+    public void testThreeButtons() throws IOException
+    {
+        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/threeButtons.html"));
+
+        assertThat(foundElements, hasSize(3));
+
+        assertThat(foundElements.get(0).getName(), equalTo("a"));
+        assertThat(foundElements.get(0).getXPath(), equalTo("html > body > div[1] > a"));
+
+        assertThat(foundElements.get(1).getName(), equalTo("a"));
+        assertThat(foundElements.get(1).getXPath(), equalTo("html > body > div[2] > a[1]"));
+
+        assertThat(foundElements.get(2).getName(), equalTo("a"));
+        assertThat(foundElements.get(2).getXPath(), equalTo("html > body > div[2] > a[2]"));
     }
 }
