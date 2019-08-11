@@ -39,6 +39,14 @@ public class ParseContextImpl implements ParserContext, HasLogger
     }
 
     @Override
+    public String flushAndReturn()
+    {
+        String buffContent = readingBuffer.toString();
+        readingBuffer = new StringBuilder();
+        return buffContent;
+    }
+
+    @Override
     public void flushAndConsume(char nextChar)
     {
         readingBuffer = new StringBuilder().append(nextChar);

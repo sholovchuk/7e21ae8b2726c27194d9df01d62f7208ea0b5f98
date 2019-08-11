@@ -13,6 +13,7 @@ public interface ParserContext
     String getTargetElementTag();
     void setTargetElementTag(String tag);
 
+    String flushAndReturn();
     void flushAndConsume(char nextChar);
     void consume(char nextChar);
 

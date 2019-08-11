@@ -18,7 +18,12 @@ public class ParsingAttributes extends AbstractParsingAction
     {
         if(nextChar == '>')
         {
+            String attrs = context.flushAndReturn();
             context.setState(State.SEARCH_NEXT_ELEMENT);
+        }
+        else
+        {
+            context.consume(nextChar);
         }
     }
 }

@@ -24,6 +24,7 @@ public class StartedElementParsing extends AbstractParsingAction
         else
         {
             context.setState(State.PARSING_OPENING_TAG);
+            context.flushAndConsume(nextChar);
         }
     }
 }
