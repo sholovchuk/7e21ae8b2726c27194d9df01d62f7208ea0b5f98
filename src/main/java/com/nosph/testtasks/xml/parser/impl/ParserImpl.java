@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 
 import com.nosph.testtasks.xml.model.Element;
 import com.nosph.testtasks.xml.parser.SearchingParser;
+import com.nosph.testtasks.xml.parser.ParserContext;
 import com.nosph.testtasks.xml.parser.exception.InvalidDocumentException;
 
 /**
@@ -39,11 +40,16 @@ import com.nosph.testtasks.xml.parser.exception.InvalidDocumentException;
 
 public class ParserImpl implements SearchingParser
 {
+    private ParserContext context = new ParseContextImpl();
+
     private EnumMap<State, Consumer<Character>> stateActions = new EnumMap<>(State.class);
 
     @Override
     public List<Element> search(String targetElementTag, File file) throws InvalidDocumentException, FileNotFoundException, IOException
     {
+        context.setState(State.SEARCH_NEXT_ELEMENT);
+        context.setTargetElementTag(targetElementTag);
+
         try(Reader reader = new BufferedReader(new FileReader(file)))
         {
             int next;
@@ -52,7 +58,7 @@ public class ParserImpl implements SearchingParser
                 process((char)next);
             }
         }
-        return Collections.emptyList();
+        return context.getFoundElements();
     }
 
     private void process(char nextChar)
