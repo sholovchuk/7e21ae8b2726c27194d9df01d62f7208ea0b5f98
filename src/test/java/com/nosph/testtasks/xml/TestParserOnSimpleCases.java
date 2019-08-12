@@ -101,4 +101,36 @@ public class TestParserOnSimpleCases extends ParserTestSupport
         assertThat(foundElements.get(1).getAttributes(), equalTo(map("href", "#",
                                                                      "class", "super super-puper")));
     }
+
+    @Test
+    public void testOneLineTag() throws IOException
+    {
+        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/oneLineTag.html"));
+
+        assertThat(foundElements, hasSize(2));
+
+        assertThat(foundElements.get(0).getName(), equalTo("a"));
+        assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a[1]"));
+        assertThat(foundElements.get(0).getAttributes(), equalTo(map("href", "#")));
+
+        assertThat(foundElements.get(1).getName(), equalTo("a"));
+        assertThat(foundElements.get(1).getXPath(), equalTo("html > body > a[2]"));
+        assertThat(foundElements.get(1).getAttributes(), equalTo(map()));
+    }
+
+    @Test
+    public void testOneLineTagWithWhitespace() throws IOException
+    {
+        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/oneLineTagWithWhitespace.html"));
+
+        assertThat(foundElements, hasSize(2));
+
+        assertThat(foundElements.get(0).getName(), equalTo("a"));
+        assertThat(foundElements.get(0).getXPath(), equalTo("html > body > a[1]"));
+        assertThat(foundElements.get(0).getAttributes(), equalTo(map("href", "#")));
+
+        assertThat(foundElements.get(1).getName(), equalTo("a"));
+        assertThat(foundElements.get(1).getXPath(), equalTo("html > body > a[2]"));
+        assertThat(foundElements.get(1).getAttributes(), equalTo(map()));
+    }
 }

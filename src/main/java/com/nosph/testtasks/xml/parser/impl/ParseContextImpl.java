@@ -129,6 +129,18 @@ public class ParseContextImpl implements ParserContext, HasLogger
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public Optional<Character> peekLastFromReadingBuffer()
+    {
+        return readingBuffer.length() >  0? Optional.ofNullable(readingBuffer.charAt(readingBuffer.length() - 1)) : Optional.empty();
+    }
+
+    @Override
+    public void removeLastCharFromReadingBuffer()
+    {
+        readingBuffer.deleteCharAt(readingBuffer.length() - 1);
+    }
+
     private List<SelectedElemet> buildDataForXPathForCurrentElement()
     {
         return stack.stream()

@@ -12,4 +12,9 @@ public abstract class AbstractParsingAction implements Consumer<Character>
     {
         this.context = context;
     }
+
+    protected boolean isOneLineTag()
+    {
+        return context.peekLastFromReadingBuffer().filter(prevChar -> prevChar == '/').isPresent();
+    }
 }

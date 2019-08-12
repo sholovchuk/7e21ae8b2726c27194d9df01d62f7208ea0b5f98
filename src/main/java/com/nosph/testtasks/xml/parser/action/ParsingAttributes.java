@@ -18,8 +18,15 @@ public class ParsingAttributes extends AbstractParsingAction
     {
         if(nextChar == '>')
         {
+            String topTag = context.peekTag();
+            if(isOneLineTag())
+            {
+                context.removeLastCharFromReadingBuffer();
+                context.popTag();
+            }
+
             String attrs = context.flushAndReturn();
-            if(context.getTargetElementTag().equalsIgnoreCase(context.peekTag()))
+            if(context.getTargetElementTag().equalsIgnoreCase(topTag))
             {
                 context.saveCurrentElementAttributes(parseAttrs(attrs));
             }
