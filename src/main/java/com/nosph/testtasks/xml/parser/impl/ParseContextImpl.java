@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import com.nosph.testtasks.xml.model.Element;
+import com.nosph.testtasks.xml.model.impl.ElementImpl;
 import com.nosph.testtasks.xml.parser.SearchingParser.State;
 import com.nosph.testtasks.xml.parser.ParserContext;
 import com.nosph.testtasks.xml.util.HasLogger;

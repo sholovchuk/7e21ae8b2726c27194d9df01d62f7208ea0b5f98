@@ -7,10 +7,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.function.Consumer;
 
-import com.nosph.testtasks.xml.model.Element;
+import com.nosph.testtasks.xml.model.Elements;
+import com.nosph.testtasks.xml.model.impl.ElementsOneTagImpl;
 import com.nosph.testtasks.xml.parser.SearchingParser;
 import com.nosph.testtasks.xml.parser.ParserContext;
 import com.nosph.testtasks.xml.parser.action.ParsingCommentOrDoctype;
@@ -59,7 +59,7 @@ public class ParserImpl implements SearchingParser
     }
 
     @Override
-    public List<Element> search(String targetElementTag, File file) throws InvalidDocumentException, FileNotFoundException, IOException
+    public Elements parse(String targetElementTag, File file) throws InvalidDocumentException, FileNotFoundException, IOException
     {
         context.setState(State.SEARCH_NEXT_ELEMENT);
         context.setTargetElementTag(targetElementTag);
@@ -73,7 +73,7 @@ public class ParserImpl implements SearchingParser
             }
         }
         assert context.isEmpty();
-        return context.getFoundElements();
+        return new ElementsOneTagImpl(context);
     }
 
     private void process(char nextChar)

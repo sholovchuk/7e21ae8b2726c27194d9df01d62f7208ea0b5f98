@@ -9,6 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.nosph.testtasks.xml.model.Element;
+import com.nosph.testtasks.xml.model.Elements;
 import com.nosph.testtasks.xml.parser.SearchingParser;
 import com.nosph.testtasks.xml.parser.impl.ParserImpl;
 
@@ -19,13 +20,14 @@ public class TestParserOnSimpleCases extends ParserTestSupport
     @Test
     public void testSimpleHtmlPage() throws IOException
     {
-        parser.search("a", getTestResource("simple-cases/simpleHtmlPage.html"));
+        parser.parse("a", getTestResource("simple-cases/simpleHtmlPage.html"));
     }
 
     @Test
     public void testOneButtonOneAttribute() throws IOException
     {
-        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/oneButtonOneAttribute.html"));
+        Elements elements = parser.parse("a", getTestResource("simple-cases/oneButtonOneAttribute.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
 
         assertThat(foundElements, hasSize(1));
 
@@ -37,7 +39,8 @@ public class TestParserOnSimpleCases extends ParserTestSupport
     @Test
     public void testOneButtonTwoAttributes() throws IOException
     {
-        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/oneButtonTwoAttributes.html"));
+        Elements elements = parser.parse("a", getTestResource("simple-cases/oneButtonTwoAttributes.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
 
         assertThat(foundElements, hasSize(1));
 
@@ -50,7 +53,8 @@ public class TestParserOnSimpleCases extends ParserTestSupport
     @Test
     public void testTwoButtons() throws IOException
     {
-        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/twoButtons.html"));
+        Elements elements = parser.parse("a", getTestResource("simple-cases/twoButtons.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
 
         assertThat(foundElements, hasSize(2));
 
@@ -66,7 +70,8 @@ public class TestParserOnSimpleCases extends ParserTestSupport
     @Test
     public void testThreeButtons() throws IOException
     {
-        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/threeButtons.html"));
+        Elements elements = parser.parse("a", getTestResource("simple-cases/threeButtons.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
 
         assertThat(foundElements, hasSize(3));
 
@@ -86,7 +91,8 @@ public class TestParserOnSimpleCases extends ParserTestSupport
     @Test
     public void testTwoButtonsTwoComplexAttributes() throws IOException
     {
-        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/twoButtonsTwoComplexAttributes.html"));
+        Elements elements = parser.parse("a", getTestResource("simple-cases/twoButtonsTwoComplexAttributes.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
 
         assertThat(foundElements, hasSize(2));
 
@@ -105,7 +111,8 @@ public class TestParserOnSimpleCases extends ParserTestSupport
     @Test
     public void testOneLineTag() throws IOException
     {
-        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/oneLineTag.html"));
+        Elements elements = parser.parse("a", getTestResource("simple-cases/oneLineTag.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
 
         assertThat(foundElements, hasSize(2));
 
@@ -121,7 +128,8 @@ public class TestParserOnSimpleCases extends ParserTestSupport
     @Test
     public void testOneLineTagWithWhitespace() throws IOException
     {
-        List<Element> foundElements = parser.search("a", getTestResource("simple-cases/oneLineTagWithWhitespace.html"));
+        Elements elements = parser.parse("a", getTestResource("simple-cases/oneLineTagWithWhitespace.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
 
         assertThat(foundElements, hasSize(2));
 

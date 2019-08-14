@@ -51,8 +51,8 @@ public class ParsingAttributes extends AbstractParsingAction
             int secondQuote = attrs.indexOf('"', initIndex + 1);
             secondQuote = attrs.indexOf('"', secondQuote + 1);
 
-            String key = attrs.substring(initIndex, equalIndex);
-            String val = attrs.substring(equalIndex + 2, secondQuote);
+            String key = attrs.substring(initIndex, equalIndex).trim();
+            String val = attrs.substring(equalIndex + 2, secondQuote).trim();
 
             attrsParsed.put(key, val);
             initIndex = secondQuote + 2;

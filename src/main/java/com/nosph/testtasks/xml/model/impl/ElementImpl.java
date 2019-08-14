@@ -1,4 +1,4 @@
-package com.nosph.testtasks.xml.parser.impl;
+package com.nosph.testtasks.xml.model.impl;
 
 import java.util.Map;
 
