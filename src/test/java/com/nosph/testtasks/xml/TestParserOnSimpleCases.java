@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -140,5 +141,25 @@ public class TestParserOnSimpleCases extends ParserTestSupport
         assertThat(foundElements.get(1).getName(), equalTo("a"));
         assertThat(foundElements.get(1).getXPath(), equalTo("html > body > a[2]"));
         assertThat(foundElements.get(1).getAttributes(), equalTo(map()));
+    }
+
+    @Test
+    public void testTwoButtonsOneHasId() throws IOException
+    {
+        Elements elements = parser.parse("a", getTestResource("simple-cases/twoButtonsOneHasId.html"));
+        List<Element> foundElements = elements.getElementsByTag("a");
+
+        assertThat(foundElements, hasSize(2));
+
+        Optional<Element> targetOpt = elements.getElementById("target");
+
+        assertThat(targetOpt.isPresent(), is(true));
+
+        Element target = targetOpt.get();
+
+        assertThat(target.getName(), equalTo("a"));
+        assertThat(target.getXPath(), equalTo("html > body > a[2]"));
+        assertThat(target.getAttributes(), equalTo(map("id", "target",
+                                                       "class", "second")));
     }
 }
