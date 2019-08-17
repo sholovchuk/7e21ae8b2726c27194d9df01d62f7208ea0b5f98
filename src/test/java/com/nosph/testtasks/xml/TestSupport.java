@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ParserTestSupport
+public class TestSupport
 {
     private ClassLoader classLoader;
 
-    protected ParserTestSupport()
+    protected TestSupport()
     {
         classLoader = getClass().getClassLoader();
     }

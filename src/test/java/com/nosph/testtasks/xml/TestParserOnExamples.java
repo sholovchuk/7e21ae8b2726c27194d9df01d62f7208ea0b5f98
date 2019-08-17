@@ -13,7 +13,7 @@ import com.nosph.testtasks.xml.model.Elements;
 import com.nosph.testtasks.xml.parser.SearchingParser;
 import com.nosph.testtasks.xml.parser.impl.ParserImpl;
 
-public class TestParserOnExamples extends ParserTestSupport
+public class TestParserOnExamples extends TestSupport
 {
     private SearchingParser parser = new ParserImpl();
 

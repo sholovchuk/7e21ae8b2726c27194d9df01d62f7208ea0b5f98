@@ -14,7 +14,7 @@ import com.nosph.testtasks.xml.model.Elements;
 import com.nosph.testtasks.xml.parser.SearchingParser;
 import com.nosph.testtasks.xml.parser.impl.ParserImpl;
 
-public class TestParserOnSimpleCases extends ParserTestSupport
+public class TestParserOnSimpleCases extends TestSupport
 {
     private SearchingParser parser = new ParserImpl();
 
