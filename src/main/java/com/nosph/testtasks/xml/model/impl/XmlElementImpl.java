@@ -2,20 +2,20 @@ package com.nosph.testtasks.xml.model.impl;
 
 import java.util.Map;
 
-import com.nosph.testtasks.xml.model.Element;
+import com.nosph.testtasks.xml.model.XmlElement;
 
-public class ElementImpl implements Element
+public class XmlElementImpl implements XmlElement
 {
-    public static Element create(String name, String pathToElement, Map<String, String> attrs)
+    public static XmlElement create(String name, String pathToElement, Map<String, String> attrs)
     {
-        return new ElementImpl(name, pathToElement, attrs);
+        return new XmlElementImpl(name, pathToElement, attrs);
     }
 
     private String name;
     private String xPath;
     private Map<String, String> attributes;
 
-    private ElementImpl(String name, String pathToElement, Map<String, String> attrs)
+    private XmlElementImpl(String name, String pathToElement, Map<String, String> attrs)
     {
         this.name = name;
         this.xPath = pathToElement;

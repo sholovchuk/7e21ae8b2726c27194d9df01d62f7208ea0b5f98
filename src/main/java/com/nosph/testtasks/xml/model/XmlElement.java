@@ -2,7 +2,7 @@ package com.nosph.testtasks.xml.model;
 
 import java.util.Map;
 
-public interface Element
+public interface XmlElement
 {
     String getXPath();
 

@@ -1,7 +1,9 @@
-package com.nosph.testtasks.xml.text;
+package com.nosph.testtasks.xml.text.impl;
 
 import java.util.Arrays;
 
+import com.nosph.testtasks.xml.text.TextSimilarityCalculator;
+// TODO change algo?
 public class JaroWinkler implements TextSimilarityCalculator
 {
     private static final double WINKLERS_THRESHOLD = 0.7;

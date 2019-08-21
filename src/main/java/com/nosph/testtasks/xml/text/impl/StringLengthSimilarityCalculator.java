@@ -1,4 +1,6 @@
-package com.nosph.testtasks.xml.text;
+package com.nosph.testtasks.xml.text.impl;
+
+import com.nosph.testtasks.xml.text.TextSimilarityCalculator;
 
 public class StringLengthSimilarityCalculator implements TextSimilarityCalculator
 {
@@ -12,6 +14,11 @@ public class StringLengthSimilarityCalculator implements TextSimilarityCalculato
     @Override
     public double compare(String first, String second)
     {
+        if(first.length() == 0 || second.length() == 0)
+        {
+            return 0.0;
+        }
+
         double max = Math.max(first.length(), second.length());
         double min = Math.min(first.length(), second.length());
 

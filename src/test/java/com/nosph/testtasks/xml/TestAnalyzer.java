@@ -12,20 +12,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.nosph.testtasks.xml.analyzer.Analyzer;
-import com.nosph.testtasks.xml.analyzer.ElementAttributesSimilarityAnalyzer;
-import com.nosph.testtasks.xml.model.Element;
-import com.nosph.testtasks.xml.model.impl.ElementImpl;
+import com.nosph.testtasks.xml.analyzer.impl.ElementAttributesSimilarityAnalyzer;
+import com.nosph.testtasks.xml.model.XmlElement;
+import com.nosph.testtasks.xml.model.impl.XmlElementImpl;
 
 public class TestAnalyzer extends TestSupport
 {
     private Analyzer analyzer = new ElementAttributesSimilarityAnalyzer();
 
-    private Element targetElement;
+    private XmlElement targetElement;
 
     @Before
     public void prepare()
     {
-        targetElement = ElementImpl.create("", "", map("id", "make-everything-ok-button",
+        targetElement = XmlElementImpl.create("", "", map("id", "make-everything-ok-button",
                                                        "class", "btn btn-success",
                                                        "href", "#ok",
                                                        "title", "Make-Button",
@@ -36,21 +36,21 @@ public class TestAnalyzer extends TestSupport
     @Test
     public void testFirstExample()
     {
-        List<Element> elements = Arrays.asList(ElementImpl.create("", "", map("class", "btn btn-danger",
+        List<XmlElement> elements = Arrays.asList(XmlElementImpl.create("", "", map("class", "btn btn-danger",
                                                                               "href", "#ok",
                                                                               "title", "Make-Button",
                                                                               "onclick", "javascript:window.close(); return false;")),
-                                               ElementImpl.create("", "", map("class", "btn btn-success",
+                                               XmlElementImpl.create("", "", map("class", "btn btn-success",
                                                                               "href", "#check-and-ok",
                                                                               "title", "Make-Button",
                                                                               "rel", "done",
                                                                               "onclick", "javascript:window.okDone(); return false;")));
 
-        Optional<Element> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
+        Optional<XmlElement> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
 
         assertTrue(mostSimilarElementOpt.isPresent());
 
-        Element mostSimilarElement = mostSimilarElementOpt.get();
+        XmlElement mostSimilarElement = mostSimilarElementOpt.get();
 
         assertThat(mostSimilarElement, is(elements.get(1)));
     }
@@ -58,21 +58,21 @@ public class TestAnalyzer extends TestSupport
     @Test
     public void testSecondExample()
     {
-        List<Element> elements = Arrays.asList(ElementImpl.create("", "", map("class", "btn test-link-ok",
+        List<XmlElement> elements = Arrays.asList(XmlElementImpl.create("", "", map("class", "btn test-link-ok",
                                                                               "href", "#ok",
                                                                               "title", "Make-Button",
                                                                               "rel", "next",
                                                                               "onclick", "javascript:window.okComplete(); return false;")),
-                                               ElementImpl.create("", "", map("class", "btn btn-info",
+                                               XmlElementImpl.create("", "", map("class", "btn btn-info",
                                                                               "href", "#incorrect-link",
                                                                               "title", "Make-Button",
                                                                               "onclick", "javascript:window.close(); return false;")));
 
-        Optional<Element> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
+        Optional<XmlElement> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
 
         assertTrue(mostSimilarElementOpt.isPresent());
 
-        Element mostSimilarElement = mostSimilarElementOpt.get();
+        XmlElement mostSimilarElement = mostSimilarElementOpt.get();
 
         assertThat(mostSimilarElement, is(elements.get(0)));
     }
@@ -80,21 +80,21 @@ public class TestAnalyzer extends TestSupport
     @Test
     public void testThirdExample()
     {
-        List<Element> elements = Arrays.asList(ElementImpl.create("", "", map("class", "btn btn-warning",
+        List<XmlElement> elements = Arrays.asList(XmlElementImpl.create("", "", map("class", "btn btn-warning",
                                                                               "href", "#ok",
                                                                               "rel", "next",
                                                                               "onclick", "javascript:window.close(); return false;")),
-                                               ElementImpl.create("", "", map("class", "btn btn-success",
+                                               XmlElementImpl.create("", "", map("class", "btn btn-success",
                                                                               "href", "#ok",
                                                                               "title", "Do-Link",
                                                                               "rel", "next",
                                                                               "onclick", "javascript:window.okDone(); return false;")));
 
-        Optional<Element> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
+        Optional<XmlElement> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
 
         assertTrue(mostSimilarElementOpt.isPresent());
 
-        Element mostSimilarElement = mostSimilarElementOpt.get();
+        XmlElement mostSimilarElement = mostSimilarElementOpt.get();
 
         assertThat(mostSimilarElement, is(elements.get(1)));
     }
@@ -102,18 +102,18 @@ public class TestAnalyzer extends TestSupport
     @Test
     public void testFourthExample()
     {
-        List<Element> elements = Arrays.asList(ElementImpl.create("", "", map("class", "btn btn-success",
+        List<XmlElement> elements = Arrays.asList(XmlElementImpl.create("", "", map("class", "btn btn-success",
                                                                               "href", "#ok",
                                                                               "title", "Make-Button",
                                                                               "rel", "next",
                                                                               "onclick", "javascript:window.okFinalize(); return false;")),
-                                               ElementImpl.create("", "", map("class", "btn btn-default btn-block")));
+                                               XmlElementImpl.create("", "", map("class", "btn btn-default btn-block")));
 
-        Optional<Element> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
+        Optional<XmlElement> mostSimilarElementOpt = analyzer.findMostSimilarElement(targetElement, elements);
 
         assertTrue(mostSimilarElementOpt.isPresent());
 
-        Element mostSimilarElement = mostSimilarElementOpt.get();
+        XmlElement mostSimilarElement = mostSimilarElementOpt.get();
 
         assertThat(mostSimilarElement, is(elements.get(0)));
     }

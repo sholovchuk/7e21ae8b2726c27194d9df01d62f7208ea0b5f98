@@ -3,9 +3,9 @@ package com.nosph.testtasks.xml.analyzer;
 import java.util.List;
 import java.util.Optional;
 
-import com.nosph.testtasks.xml.model.Element;
+import com.nosph.testtasks.xml.model.XmlElement;
 
 public interface Analyzer
 {
-    Optional<Element> findMostSimilarElement(Element targetElement, List<Element> elements);
+    Optional<XmlElement> findMostSimilarElement(XmlElement targetElement, List<XmlElement> elements);
 }
