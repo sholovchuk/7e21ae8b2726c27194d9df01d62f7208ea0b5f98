@@ -20,7 +20,7 @@ public class JsoupParser implements Parser
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e); // TODO ???
+            throw new RuntimeException("Couldn't parse file '" + xml + "'", e);
         }
     }
 }

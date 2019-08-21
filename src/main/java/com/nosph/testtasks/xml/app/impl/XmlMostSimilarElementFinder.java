@@ -35,8 +35,8 @@ public class XmlMostSimilarElementFinder implements CommandLineProgram
         File originFile = getFile(args[0]);
         File diffFile = getFile(args[1]);
 
-        XmlElements first = parser.parse(originFile); //TODO wrap and exit if failed to parse
-        XmlElements second = parser.parse(diffFile);
+        XmlElements first = parse(originFile);
+        XmlElements second = parse(diffFile);
 
         Optional<XmlElement> targetElementOpt = first.getElementById(id);
 
@@ -70,5 +70,19 @@ public class XmlMostSimilarElementFinder implements CommandLineProgram
             System.exit(1);
         }
         return file;
+    }
+
+    private XmlElements parse(File file)
+    {
+        try
+        {
+            return parser.parse(file);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+        return null;
     }
 }
